@@ -4,6 +4,7 @@ import cors from "cors"
 import dotenv from "dotenv"
 import mongoose from "mongoose"
 import userRouter from "../routes/userRoute"
+import productRoute from "../routes/productRoute"
 
 dotenv.config()
 
@@ -12,7 +13,7 @@ app.use(cors());
 
 app.use(express.json())
 
-app.use(express.urlencoded({extended:true}))
+app.use(express.urlencoded({ extended: true }));
 
 // connection to monmgo db 
 
@@ -41,6 +42,8 @@ try{
 /////////
 app.use("/user",userRouter)
 //////////
+/// about creating products
+app.use("/product",productRoute)
 
 app.get("/",(req:Request,res:Response)=>{
    return res.sendStatus(200)
