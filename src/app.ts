@@ -5,6 +5,8 @@ import dotenv from "dotenv"
 import mongoose from "mongoose"
 import userRouter from "../routes/userRoute"
 import productRoute from "../routes/productRoute"
+import welcome from '../routes/welcomeRoute'
+import all from "../routes/allProductsRoute"
 
 dotenv.config()
 
@@ -38,12 +40,15 @@ try{
   console.log(" error when connecting to mongo",e)
 }
 
-
+//home display
+app.use("/welcome",welcome)
 /////////
 app.use("/user",userRouter)
 //////////
 /// about creating products
 app.use("/product",productRoute)
+// get all products
+app.use("/all",all)
 
 app.get("/",(req:Request,res:Response)=>{
    return res.sendStatus(200)
