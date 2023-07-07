@@ -53,15 +53,16 @@ const viewCart=async(req:any,res:any): Promise<any>=>{
 
 const deleteCart=async(req:any,res:any):Promise<any> =>{
     try{
-        const data=req.body
-        const found=await cart.findOne({name:data.name})
+        const id=req.body.id
+        const found=await cart.findById(id)
         if(!found){
             res.status(409).json({
                 message:"this products is not available"
             })
         }else{
-            const id=found._id
-            await found.deleteOne({_id:id})
+            // const id=found._id
+            // await found.findByAnddelete({_id:id})
+            await cart.findByIdAndDelete(id)
             res.status(200).json({
                 message:"the product is deleted",
             })
