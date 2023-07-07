@@ -1,5 +1,6 @@
 import product from "../models/productModel";
 
+
 const createProduct = async (req:any, res: any): Promise<any> => {
   try {
     const data= await product.create(req.body)
