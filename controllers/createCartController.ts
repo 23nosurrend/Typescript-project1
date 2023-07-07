@@ -18,8 +18,8 @@ const createCart=async(req:any,res:any):Promise<any> =>{
                 message:" this is about created cart",price,Quantity
             })
 
-           const selected=new cart({
-            name:found,
+           const selected= new cart({
+            name:found.name,
             price:price,
             Quantity:Quantity
            })
@@ -54,14 +54,14 @@ const viewCart=async(req:any,res:any): Promise<any>=>{
 const deleteCart=async(req:any,res:any):Promise<any> =>{
     try{
         const data=req.body
-        const found=await product.findOne({name:data.name})
+        const found=await cart.findOne({name:data.name})
         if(!found){
             res.status(409).json({
                 message:"this products is not available"
             })
         }else{
             const id=found._id
-            await cart.deleteOne({_id:id})
+            await found.deleteOne({_id:id})
             res.status(200).json({
                 message:"the product is deleted",
             })
@@ -72,5 +72,44 @@ const deleteCart=async(req:any,res:any):Promise<any> =>{
     }
 }
 
+const updateCart=async(req:any,res:any):Promise<any>=>{
+    try{
+        const data=req.body
+        const Name=data.name
+        const Quantity=data.Qty
+        console.log(Quantity)
+        const found=await cart.findOne({name:data.name})
+        if(!found){
+            res.status(409).json({
+                message:"this products is not available"
+            })
+        }else{
+            
+            await cart.findOneAndUpdate(
+                {name:Name},
+                {
+                    $mul:{price: Quantity},
+                    $inc:{Quantity:Quantity-1}
+                
+                
+                }
+                
+                
+            )
+            //  await cart.save()
 
-export { createCart,viewCart,deleteCart}
+             res.status(200).json({
+                message:" this is new price:"
+             })
+        }
+
+    }catch(e){
+        console.log("error while updating found",e)
+
+    }
+
+
+}
+
+
+export { createCart,viewCart,deleteCart,updateCart}
